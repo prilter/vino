@@ -1,4 +1,4 @@
-#define init()										\
+#define init(x, maxx, y, maxy)							\
 	initscr();									\
 	raw();										\
 	noecho();									\
@@ -6,6 +6,7 @@
 	start_color();									\
 	init_pair(1, COLOR_WHITE, COLOR_BLACK);						\
 	bkgd(COLOR_PAIR(1));								\
+
 
 int getinfolen(const char *filename, int cx, int cy)
 {
@@ -28,33 +29,38 @@ int getinfolen(const char *filename, int cx, int cy)
 	return r;
 }
 
-#define draw_text(filename, lines, cx, cy)						\
+#define draw_text(filename, lines, cx, cy, scroll)					\
 	clear();									\
 											\
 	int infolen;									\
 	infolen = getinfolen(filename, cx, cy);						\
-											\
 	mvprintw(LINES-1, COLS-infolen, "%s: %dl, %ds", filename, cy+1, cx+1);		\
-	for (size_t i = 0; i < lines.size(); ++i)					\
-		mvprintw(i, 0, "%s", lines[i].c_str());					\
+											\
+	for (size_t i = 0; i < LINES-1 && (i + scroll) < lines.size(); ++i)		\
+		mvprintw(i, 0, "%s", lines[i+scroll].c_str());				\
 		  									\
 	move(cy, cx);									\
 	refresh();									\
 
 /* FUCK THAT MACRO AND BACKSPACE */
 #define curlinelen lines[cy].len()
-#define analize_input(lines, sym, cx, cy) 						\
-	if ((sym = getch()) != ESC) {							\
+#define analize_input(lines, sym, cx, cy, scroll)					\
+	if ((sym = wgetch(stdscr)) != ESC) {						\
 		switch(sym) {								\
 			case KEY_UP:							\
-				cy -= (cy > 0);						\
+				if (cy > 0) 	     --cy;				\
+				else if (scroll > 0) --scroll;				\
+											\
 				if (cx > curlinelen)					\
 					cx = curlinelen;				\
 				break;							\
 			case KEY_DOWN:							\
-				cy += (cy < lines.size()-1); /* MOVE Y POS DOWN */	\
+				if (cy < lines.size())				\
+					if (++cy >= LINES-1) 				\
+						{++scroll; cy = lines.size()1;}	\
+											\
 				if (cx > curlinelen)					\
-		       			cx = curlinelen;				\
+					cx = curlinelen;				\
 				break;							\
 			case KEY_LEFT:							\
 				cx -= (cx > 0);						\
@@ -73,7 +79,7 @@ int getinfolen(const char *filename, int cx, int cy)
 				break;							\
 			case '\n':							\
 			case KEY_ENTER:							\
-				lines.insert(lines.begin()+cy+1, lines[cy].substr(cx));	\
+				lines.insert(lines.begin()+cy+1, lines[cy].substr(cx)); \
 				lines[cy] = lines[cy].substr(0, cx);			\
 				cy++; /*MOVE TO NEW LINE*/				\
 				cx = 0;/*MOVE TO START OF NEW LINE*/			\

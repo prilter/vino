@@ -19,13 +19,13 @@ int main(int argc, const char **argv)
 		return 1;
 
 	std::vector<std::string> lines(1);
-	int cx, cy, sym;
+	int cx, cy, sym, scroll;
 
-	init();
+	init(cx, MAX_X, cy, MAX_Y);
 	getfiletext(*++argv, lines);
-	for (cx = 0, cy = 0; sym != ESC; ) {
-		draw_text(*argv, lines, cx, cy);
-		analize_input(lines, sym, cx, cy);
+	for (cx = 0, cy = 0, scroll = 0; sym != ESC; ) {
+		draw_text(*argv, lines, cx, cy, scroll);
+		analize_input(lines, sym, cx, cy, scroll);
 	}
 
 	save(*argv, lines);
