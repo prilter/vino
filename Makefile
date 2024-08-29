@@ -1,4 +1,8 @@
 debug:
-	clang++ -O3 src/main.cpp -o build/vild -lncurses
-release:
-	clang++ src/main.cpp -O3 -Oz -funroll-loops -fomit-frame-pointer -mtune=native -mno-omit-leaf-frame-pointer -fvectorize -flto -o build/vild -lncurses -std=c++20 -g0
+	clang++ src/fileworking.cpp -c
+	clang++ src/vild.cpp -c
+	clang++ src/main.cpp -c
+	clang++ *o -o bin/vild -std=c++17 -lncurses
+	rm *.o
+go:
+	./bin/vild t.t

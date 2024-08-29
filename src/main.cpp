@@ -1,34 +1,40 @@
 #include <ncurses.h>
-#include <fstream>
 #include <vector>
+#include <string>
+#include <fstream>
 
-#define len() 	    length()
-#define end() 	    endwin()
+#define vec_str 	std::vector<std::string>
+#define uint		unsigned int
 
-#define CTRL_KEY(k) ((k) & 0x1f)
-#define KEY_DEL	    8 /* UNWORKED */
-#define ESC	    27
-#define KEY_TAB	    9
+#define KEY_ESC 27
 
-#include "vild.hpp"
-#include "fileworking.hpp"
+/* VILD */
+extern void init_ncurses();
+extern void check_sym(vec_str &lines, int &c, uint &x, uint &y);
+extern int  draw_text(const char *filename, vec_str lines, uint x, uint y);
+
+/* FILEWORKING */
+extern int  save(const char *filename, vec_str lines);
+extern int  read_info(const char *filename, vec_str &lines);
 
 int main(int argc, const char **argv)
 {
 	if (argc == 1)
 		return 1;
+	++argv;
+	init_ncurses();
 
-	std::vector<std::string> lines(1);
-	int cx, cy, sym, scroll;
+	vec_str lines(1);
+	uint x, y;
+	int c;
 
-	init(cx, MAX_X, cy, MAX_Y);
-	getfiletext(*++argv, lines);
-	for (cx = 0, cy = 0, scroll = 0; sym != ESC; ) {
-		draw_text(*argv, lines, cx, cy, scroll);
-		analize_input(lines, sym, cx, cy, scroll);
+	read_info(*argv, lines);
+	for (x = 0, y = 0; c != KEY_ESC ;) {
+		draw_text(*argv, lines, x, y);
+		check_sym(lines, c, x, y);	
 	}
 
 	save(*argv, lines);
-	end();
-	return 0;
+	endwin();
+	return 0;	
 }
