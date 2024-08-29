@@ -44,9 +44,13 @@ int draw_text(const char *filename, vec_str lines, uint x, uint y) {
 	infolen = getinfolen(filename, x, y);
 	mvprintw(LINES-1, COLS-infolen, "%s: %dl, %ds", filename, y+1, x+1);
 
-	for (size_t i = 0; i < lines.size(); ++i)
-		mvprintw(i, 0, "%s", lines[i].c_str());
-
+	if (y > LINES - 1)
+		for (size_t i = y - LINES + 1, k = 0; i < lines.size(); ++i, ++k)
+			mvprintw(k, 0, "%s", lines[i].c_str());
+	else
+		for (size_t i = 0; i < lines.size(); ++i)
+			mvprintw(i, 0, "%s", lines[i].c_str());
+			
 	move(y, x);
 	refresh();
 	return 1;	
