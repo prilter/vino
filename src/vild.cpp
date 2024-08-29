@@ -58,38 +58,51 @@ void check_sym(vec_str &lines, int &c, uint &x, uint &y)
 		case KEY_UP:
 			if (y > 0)
 				--y;
+			if (x > lines[y].length()) /* IF STRLEN CUR Y > STRLEN FUTURE Y */
+				x = lines[y].length();
 			break;
 		case KEY_DOWN:
 			if (y < lines.size()-1)
 				++y;
+			if (x > lines[y].length()) /* IF STRLEN CUR Y > STRLEN FUTURE Y */
+				x = lines[y].length();
 			break;
 		case KEY_RIGHT:
 			if (x < lines[y].length()-1)
 				++x;
-			else if (y < lines.size()-1)
-				++y;
+			else if (y < lines.size()-1) /* MOVE TO NEXT LINE(x = 0) */
+				++y, x = 0;
 			break;
 		case KEY_LEFT:
 			if (x > 0)
 				--x;
-			else if (y > 0)
-				--y;
+			else if (y > 0) /* MOVE UP(x IN END) */
+				x = lines[--y].length();
 			break;
 
 		case ENTER:
-			lines.push_back("");
+			if (x < lines[y].length()) { /* IF NOT END OF LINE */
+				lines.insert(lines.begin() + y + 1, lines[y].substr(x, lines[y].length()));
+				lines[y].erase(x); 		    /*ALL AFTER X*/
+			} else	lines.insert(lines.begin() + y + 1, "");
+
 			++y;
 			x = 0;
 			break;
 		case KEY_BACKSPACE:
-			if (x > 0)
+			if (x == 0) { /* IF IN START THEN MOVE LINE UP AFTER AVALIABLE */
+				x = lines[y-1].length();
+				lines[y-1].append(lines[y]);
+				lines.erase(lines.begin() + y);
+				--y;
+			} else if (x > 0) {
 				lines[y].erase(x-- - 1, 1); /* ERASE SYM */
-			else if (y > 0) {
+			} else if (y > 0) { /* ERASING FROM x = 0 THEN CUR LINE UPPING */
 				lines.erase(lines.begin() + y);
 				x = lines[-1 + y--].length();
 			}
 			break;
-		case KEY_ESC:
+		case KEY_ESC: /* GO NEXT TO WAITING CYCLE CHECKING ESC AS END OF WRITTING */
 			break;
 
 		case KEY_TAB:
