@@ -68,7 +68,7 @@ void check_sym(vec_str &lines, int &c, uint &x, uint &y)
 				x = lines[y].length();
 			break;
 		case KEY_RIGHT:
-			if (x < lines[y].length()-1)
+			if (x < lines[y].length())
 				++x;
 			else if (y < lines.size()-1) /* MOVE TO NEXT LINE(x = 0) */
 				++y, x = 0;
@@ -90,7 +90,7 @@ void check_sym(vec_str &lines, int &c, uint &x, uint &y)
 			x = 0;
 			break;
 		case KEY_BACKSPACE:
-			if (x == 0) { /* IF IN START THEN MOVE LINE UP AFTER AVALIABLE */
+			if (x == 0 && y > 0) { /* IF IN START THEN MOVE LINE UP AFTER AVALIABLE */
 				x = lines[y-1].length();
 				lines[y-1].append(lines[y]);
 				lines.erase(lines.begin() + y);
