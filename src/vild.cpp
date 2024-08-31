@@ -26,8 +26,8 @@ int getinfolen(const char *filename, int x, int y)
 	else	  for (;x; x/=10, ++r);
 
 	/* + cxlen */
-	if (!y)  ++r;
-	else      for (;y; y/=10, ++r);
+	if (!y) ++r;
+	else    for (;y; y/=10, ++r);
 
 	/* + filenamelen */
 	r += ((std::string)filename).length();
@@ -45,13 +45,16 @@ int draw_text(const char *filename, vec_str lines, uint x, uint y) {
 	mvprintw(LINES-1, COLS-infolen, "%s: %dl, %ds", filename, y+1, x+1);
 
 	if (y > LINES - 1)
-		for (size_t i = y - LINES + 1, k = 0; i < lines.size(); ++i, ++k)
+		for (size_t i = y - LINES + 1, k = 0; i < lines.size(); ++i, ++k) {
 			mvprintw(k, 0, "%s", lines[i].c_str());
+			move(k, x);
+		}
 	else
-		for (size_t i = 0; i < lines.size(); ++i)
-			mvprintw(i, 0, "%s", lines[i].c_str());
-			
-	move(y, x);
+		for (size_t i = 0; i < lines.size(); ++i) {
+			mvprintw(i, 0, "%s", lines[i].c_str());	
+			move(y, x);
+		}
+	
 	refresh();
 	return 1;	
 }
