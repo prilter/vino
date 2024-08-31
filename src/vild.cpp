@@ -88,14 +88,30 @@ void check_sym(vec_str &lines, int &c, uint &x, uint &y)
 			break;
 
 		case ENTER:
-			if (x < lines[y].length()) { /* IF NOT END OF LINE */
-				lines.insert(lines.begin() + y + 1, lines[y].substr(x, lines[y].length()));
-				lines[y].erase(x); 		    /*ALL AFTER X*/
-			} else	lines.insert(lines.begin() + y + 1, "");
+		{
+			/* MAKING NEW LINE */
+			lines.insert(lines.begin() + y + 1, "");
 
-			++y;
+			/* GET FORWARD TEXT IN LINE */
+			std::string nexttext = "";
+			if (x < lines[y].length()) { /* IF NOT END OF LINE AND ENTERED */
+							nexttext = lines[y].substr(x, lines[y].length());
+							lines[y].erase(x); /* ERASE ALL FROM STARTED CURRENT X POS IN LINES */
+			}
+
+			/* AUTO COMPLETER(TABS) */
 			x = 0;
+			for (size_t i = 0; lines[y][i] == ' '; i++) {
+				lines[y+1].append(" ");
+				x++;
+			}
+
+		 	/* EMPTY APPENDING IF CUR X NOT IN END */
+			lines[y+1].append(nexttext);
+
+		 	++y; /* NEW LINE */
 			break;
+		}
 		case KEY_BACKSPACE:
 			if (x == 0 && y > 0) { /* IF IN START THEN MOVE LINE UP AFTER AVALIABLE */
 				x = lines[y-1].length();
