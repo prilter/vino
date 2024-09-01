@@ -19,21 +19,25 @@ extern int  read_info(const char *filename, vec_str &lines);
 
 int main(int argc, const char **argv)
 {
+	/* INIT PROGRAMM */
 	if (argc == 1)
 		return 1;
 	++argv;
 	init_ncurses();
 
+	/* INIT ALL WORKING VARS */
 	vec_str lines(1);
 	uint x, y;
 	int c;
 
+	/* MAIN PROCCESS */
 	read_info(*argv, lines);
 	for (x = 0, y = 0; c != KEY_ESC ;) {
 		draw_text(*argv, lines, x, y);
 		check_sym(lines, c, x, y);	
 	}
 
+	/* SAVE INFO AND QUIT */
 	save(*argv, lines);
 	endwin();
 	return 0;	

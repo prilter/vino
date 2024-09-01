@@ -113,17 +113,26 @@ void check_sym(vec_str &lines, int &c, uint &x, uint &y)
 			break;
 		}
 		case KEY_BACKSPACE:
-			if (x == 0 && y > 0) { /* IF IN START THEN MOVE LINE UP AFTER AVALIABLE */
+			if (x == 0 && y > 0) { /* IF IN START THEN MOVE LINE UP */
 				x = lines[y-1].length();
 				lines[y-1].append(lines[y]);
-				lines.erase(lines.begin() + y);
-				--y;
+				lines.erase(lines.begin() + y--);
 			} else if (x > 0) {
 				lines[y].erase(x-- - 1, 1); /* ERASE SYM */
 			} else if (y > 0) { /* ERASING FROM x = 0 THEN CUR LINE UPPING */
 				lines.erase(lines.begin() + y);
 				x = lines[-1 + y--].length();
 			}
+			break;
+		case KEY_DC:
+			if (x >= 0 && x < lines[y].length()) { /* DEFAULT */
+				lines[y][x] = lines[y][x+1];
+				lines[y].erase(x + 1, 1);
+			} else if (x == lines[y].length() && y < lines.size()-1) { /*IF END OF LINE AND NEED MOVE NEXT LINE TO CUR LINE*/
+				lines[y].append(lines[y+1]);
+				lines.erase(lines.begin() + y + 1);
+			}
+
 			break;
 		case KEY_ESC: /* GO NEXT TO WAITING CYCLE CHECKING ESC AS END OF WRITTING */
 			break;

@@ -5,6 +5,7 @@
 #define vec_str std::vector<std::string>
 #define str	std::string
 
+/* GET START INFO */
 int read_info(const char *filename, vec_str &lines)
 {
 	std::ifstream file(filename);
@@ -22,6 +23,7 @@ int read_info(const char *filename, vec_str &lines)
 	return 1;
 }
 
+/* SAVE INFO */
 int save(const char *filename, vec_str lines)
 {
 	std::ofstream file(filename);
