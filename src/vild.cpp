@@ -4,6 +4,7 @@
 
 #define vec_str std::vector<std::string>
 #define uint	unsigned int
+#define uchar	unsigned char
 
 #define KEY_TAB 9
 #define KEY_ESC	27
@@ -49,98 +50,52 @@ int draw_text(const char *filename, vec_str lines, uint x, uint y) {
 			mvprintw(k, 0, "%s", lines[i].c_str());
 			move(k, x);
 		}
-	else
-		for (size_t i = 0; i < lines.size(); ++i) {
+	else {
+		for (size_t i = 0; i < lines.size(); ++i)
 			mvprintw(i, 0, "%s", lines[i].c_str());	
-			move(y, x);
-		}
+		move(y, x);
+	}
 	
 	refresh();
 	return 1;	
 }
 
+#include "keys/scroll.h"
+#include "keys/special.h"
 void check_sym(vec_str &lines, int &c, uint &x, uint &y)
 {
 	switch ((c = wgetch(stdscr))) {
+		case KEY_ESC: /* GO NEXT TO WAITING CYCLE CHECKING ESC AS END OF WRITTING */
+			break;
+		
 		case KEY_UP:
-			if (y > 0)
-				--y;
-			if (x > lines[y].length()) /* IF STRLEN CUR Y > STRLEN FUTURE Y */
-				x = lines[y].length();
+			up(lines, x, y);
 			break;
 		case KEY_DOWN:
-			if (y < lines.size()-1)
-				++y;
-			if (x > lines[y].length()) /* IF STRLEN CUR Y > STRLEN FUTURE Y */
-				x = lines[y].length();
+			down(lines, x, y);
 			break;
 		case KEY_RIGHT:
-			if (x < lines[y].length())
-				++x;
-			else if (y < lines.size()-1) /* MOVE TO NEXT LINE(x = 0) */
-				++y, x = 0;
+			right(lines, x, y);
 			break;
 		case KEY_LEFT:
-			if (x > 0)
-				--x;
-			else if (y > 0) /* MOVE UP(x IN END) */
-				x = lines[--y].length();
+			left(lines, x, y);
 			break;
 
 		case ENTER:
 		{
-			/* MAKING NEW LINE */
-			lines.insert(lines.begin() + y + 1, "");
-
-			/* GET FORWARD TEXT IN LINE */
-			std::string nexttext = "";
-			if (x < lines[y].length()) { /* IF NOT END OF LINE AND ENTERED */
-							nexttext = lines[y].substr(x, lines[y].length());
-							lines[y].erase(x); /* ERASE ALL FROM STARTED CURRENT X POS IN LINES */
-			}
-
-			/* AUTO COMPLETER(TABS) */
-			x = 0;
-			for (size_t i = 0; lines[y][i] == ' '; i++) {
-				lines[y+1].append(" ");
-				x++;
-			}
-
-		 	/* EMPTY APPENDING IF CUR X NOT IN END */
-			lines[y+1].append(nexttext);
-
-		 	++y; /* NEW LINE */
+			enter(lines, x, y);
 			break;
 		}
 		case KEY_BACKSPACE:
-			if (x == 0 && y > 0) { /* IF IN START THEN MOVE LINE UP */
-				x = lines[y-1].length();
-				lines[y-1].append(lines[y]);
-				lines.erase(lines.begin() + y--);
-			} else if (x > 0) {
-				lines[y].erase(x-- - 1, 1); /* ERASE SYM */
-			} else if (y > 0) { /* ERASING FROM x = 0 THEN CUR LINE UPPING */
-				lines.erase(lines.begin() + y);
-				x = lines[-1 + y--].length();
-			}
+			backspace(lines, x, y);
 			break;
 		case KEY_DC:
-			if (x >= 0 && x < lines[y].length()) { /* DEFAULT */
-				lines[y][x] = lines[y][x+1];
-				lines[y].erase(x + 1, 1);
-			} else if (x == lines[y].length() && y < lines.size()-1) { /*IF END OF LINE AND NEED MOVE NEXT LINE TO CUR LINE*/
-				lines[y].append(lines[y+1]);
-				lines.erase(lines.begin() + y + 1);
-			}
-
+			dc(lines, x, y);
 			break;
-		case KEY_ESC: /* GO NEXT TO WAITING CYCLE CHECKING ESC AS END OF WRITTING */
-			break;
-
 		case KEY_TAB:
-			lines[y].insert(x, "  ");
-			x+=2;
+			tab(lines, x, y);
 			break;
+
 		default:
 			if (c >= 32 && c <= 126 && c != KEY_BACKSPACE && c != KEY_TAB)
 				lines[y].insert(x++, 1, c);
