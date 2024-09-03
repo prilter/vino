@@ -22,7 +22,7 @@ int read_info(const char *filename, vec_str &lines)
 {
 	std::ifstream file(filename);
 	if (!file) {
-		mkdir(filename, 0777);
+		//touch(filename);
 		file.open(filename);
 	}
 
