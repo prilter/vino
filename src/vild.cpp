@@ -10,12 +10,63 @@
 #define KEY_ESC	27
 #define ENTER   10
 
+
+
+
 void init_ncurses(void) {
 	initscr();
 	raw();
 	noecho();
 	keypad(stdscr, TRUE);
 }
+
+
+
+
+#include "keys/scroll.h"
+#include "keys/special.h"
+void check_sym(vec_str &lines, int &c, uint &x, uint &y)
+{
+	if ((c = wgetch(stdscr)) != KEY_ESC) { /* GO NEXT TO WAITING CYCLE CHECKING ESC AS END OF WRITTING */
+		switch (c) {
+			case KEY_UP:
+				up(lines, x, y);
+				break;
+			case KEY_DOWN:
+				down(lines, x, y);
+				break;
+			case KEY_RIGHT:
+				right(lines, x, y);
+				break;
+			case KEY_LEFT:
+				left(lines, x, y);
+				break;
+
+			case ENTER:
+			{
+				enter(lines, x, y);
+				break;
+			}
+			case KEY_BACKSPACE:
+				backspace(lines, x, y);
+				break;
+			case KEY_DC:
+				dc(lines, x, y);
+				break;
+			case KEY_TAB:
+				tab(lines, x, y);
+				break;
+
+			default:
+				if (c >= 32 && c <= 126 && c != KEY_BACKSPACE && c != KEY_TAB)
+					lines[y].insert(x++, 1, c);
+				break;
+		}
+	}
+}
+
+
+
 
 int getinfolen(const char *filename, int x, int y)
 {
@@ -60,45 +111,4 @@ int draw_text(const char *filename, vec_str lines, uint x, uint y) {
 	return 1;	
 }
 
-#include "keys/scroll.h"
-#include "keys/special.h"
-void check_sym(vec_str &lines, int &c, uint &x, uint &y)
-{
-	switch ((c = wgetch(stdscr))) {
-		case KEY_ESC: /* GO NEXT TO WAITING CYCLE CHECKING ESC AS END OF WRITTING */
-			break;
-		
-		case KEY_UP:
-			up(lines, x, y);
-			break;
-		case KEY_DOWN:
-			down(lines, x, y);
-			break;
-		case KEY_RIGHT:
-			right(lines, x, y);
-			break;
-		case KEY_LEFT:
-			left(lines, x, y);
-			break;
 
-		case ENTER:
-		{
-			enter(lines, x, y);
-			break;
-		}
-		case KEY_BACKSPACE:
-			backspace(lines, x, y);
-			break;
-		case KEY_DC:
-			dc(lines, x, y);
-			break;
-		case KEY_TAB:
-			tab(lines, x, y);
-			break;
-
-		default:
-			if (c >= 32 && c <= 126 && c != KEY_BACKSPACE && c != KEY_TAB)
-				lines[y].insert(x++, 1, c);
-			break;
-	}
-}

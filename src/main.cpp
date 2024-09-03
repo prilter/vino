@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <iostream>
 
 #define vec_str 	std::vector<std::string>
 #define uint		unsigned int
@@ -14,7 +15,7 @@ extern void check_sym(vec_str &lines, int &c, uint &x, uint &y);
 extern int  draw_text(const char *filename, vec_str lines, uint x, uint y);
 
 /* FILEWORKING */
-extern int  save(const char *filename, vec_str lines);
+extern int  save(const char *filename, vec_str *lines);
 extern int  read_info(const char *filename, vec_str &lines);
 
 int main(int argc, const char **argv)
@@ -38,7 +39,7 @@ int main(int argc, const char **argv)
 	}
 
 	/* SAVE INFO AND QUIT */
-	save(*argv, lines);
 	endwin();
-	return 0;	
+	save(*argv, &lines);
+	return 0;
 }
