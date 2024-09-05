@@ -71,7 +71,7 @@ void check_sym(vec_str &lines, int &c, uint &x, uint &y)
 int getinfolen(const char *filename, int x, int y)
 {
 	int r;
-   	r = 0;
+ 	r = 0;
 
   	/* + cxlen */
 	if (!x)  ++r;
@@ -89,6 +89,7 @@ int getinfolen(const char *filename, int x, int y)
 	return r;
 }
 
+size_t l = 1;
 int draw_text(const char *filename, vec_str lines, uint x, uint y) {
 	clear();
 
@@ -96,17 +97,16 @@ int draw_text(const char *filename, vec_str lines, uint x, uint y) {
 	infolen = getinfolen(filename, x, y);
 	mvprintw(LINES-1, COLS-infolen, "%s: %dl, %ds", filename, y+1, x+1);
 
-	if (y > LINES - 1)
-		for (size_t i = y - LINES + 1, k = 0; i < lines.size(); ++i, ++k) {
-			mvprintw(k, 0, "%s", lines[i].c_str());
-			move(k, x);
-		}
-	else {
-		for (size_t i = 0; i < lines.size(); ++i)
-			mvprintw(i, 0, "%s", lines[i].c_str());	
+	if (y < l*(LINES-1)) {
+		for (size_t i = 0; i <= LINES-1 && i < lines.size(); ++i)
+			mvprintw(i, 0, "%s", lines[i].c_str());
 		move(y, x);
+	} else {
+		for (size_t i = l*(LINES-1), k = 0; i < lines.size(); ++i, ++k)
+			mvprintw(k, 0, "%s", lines[i].c_str());
+		move(y-l*(LINES-1), x);
 	}
-	
+
 	refresh();
 	return 1;	
 }
