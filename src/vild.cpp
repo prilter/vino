@@ -80,22 +80,20 @@ int draw_text(const char *filename, vec_str lines, int c, uint x, uint y) {
 	infolen = getinfolen(filename, x, y);
 	mvprintw(LINES-1, COLS-infolen, "%s: %dl, %ds", filename, y+1, x+1);
 
-	if (y > LINES-1) {
-		short sign = 0;
-		if (y % LINES == 0) { /* IF NEW LINES(DOWNER THAT LINES) */
-			if (c == KEY_DOWN)		sign =  1;
-			else if (c == KEY_UP)	sign = -1;
+	if (y > LINES - 1) {
+		if (y % LINES == 0) { /* IF NEW LINES(DOWN THAT CURRENT LINES) */
+			if (c == KEY_DOWN)		sc++;
+			else if (c == KEY_UP)	sc--;
 		}
-		sc += sign;
-
+	
 		for (size_t i = LINES-1 + sc, k = 0; i < lines.size(); ++i, ++k)
 			mvprintw(k, 0, "%s", lines[i].c_str());
 
 		move(y-LINES, x);
 	} else {
-		for (size_t i = 0; i < lines.size(); i++)
+		for (size_t i = 0; i < lines.size(); ++i)
 			mvprintw(i, 0, "%s", lines[i].c_str());
-		
+
 		move(y, x);
 	}
 
