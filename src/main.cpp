@@ -12,7 +12,7 @@
 /* VILD */
 extern void init_ncurses();
 extern void check_sym(vec_str &lines, int &c, uint &x, uint &y);
-extern int  draw_text(const char *filename, vec_str lines, uint x, uint y);
+extern int  draw_text(const char *filename, vec_str lines, int c, uint x, uint y);
 
 /* FILEWORKING */
 extern int  save(const char *filename, vec_str *lines);
@@ -33,8 +33,8 @@ int main(int argc, const char **argv)
 
 	/* MAIN PROCCESS */
 	read_info(*argv, lines);
-	for (x = 0, y = 0; c != KEY_ESC ;) {
-		draw_text(*argv, lines, x, y);
+	for (x = 0, y = 0, c = 0; c != KEY_ESC ;) {
+		draw_text(*argv, lines, c, x, y);
 		check_sym(lines, c, x, y);	
 	}
 

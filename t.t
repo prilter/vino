@@ -9,7 +9,7 @@ qwfqwetwet  wetwet;
 wwetwe
  ewgwegwegweg ewt
     
-    wet;
+eeeeee    wet;
   qwf
     qwf
       qwf;
@@ -41,14 +41,14 @@ tyjtfdsg
             qwe;
   wef            qwe;
 weeewegwg              qwfqwf;
-              qwfqwf;
-              qwf;q
-                qwf;
+e              qwfqwf;
+ e             qwf;q
+  e              qwf;
        wefwef         wqf
                   wqf;
-w                  qwf;
+ww                  qwf;
 wef                  wq
-eeeeeeeeeeeeeeeeeeeeeee                    q
+eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee                    q
                       f
                         
                         ewgwe;wegweg
@@ -63,3 +63,31 @@ wef;wef
   wef;wef;
   qw;
 
+qwfqw
+  f
+    qw
+      fq
+        wf
+          q
+            wf
+              qw
+                f
+                  q
+                    wf
+                      qwf;qwf
+                        qw;fqw;
+                      
+wef
+
+wef  wef
+   wef w
+      efwef;
+      wef;
+      ewfr
+        wer
+          wer
+        wer
+          wer
+            wer
+              wer
+                w
