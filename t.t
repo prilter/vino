@@ -1,69 +1,66 @@
-ewfwefweffwefwefwefwefwefewrwerwefgweferewrhwg;
-wf;few
-eweg
- we weg;
-wegweg  wtegd f
-    wetwg';
-ewtwet
-qwfqwetwet  wetwet;
-wwetwe
- ewgwegwegweg ewt
-wer    
-eeewerwerwerwreee    wet;
-  qwfwer
-    qwfw
-      qwf;
-wefwef
-
-wef
-wef
-  qwr;
-
-efwe;
-wgerge
-ty wefwe
-j;
+ffeefewfwefweffwefwefwefwefwefewrwerwefgweferewrhwg;wf;fffew
+eeeewfwefwegwegwege we weg;ewegweg  wtegd f
+ssseqwwrreeeeeeeeee    wetwg';
+ewrtewet
+qwfsqwetwet  wetwet;
+wwetwee
+ ewgaweegwegweg ewt
+eewewaswwer    
+wefwefwdwwwwweeeewerwerwerwreee    wet;
+eeeeeeeeaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee  eqwfwere
+    qwfwesd
+      qwfe;as
+wefwefwefeed
+eeeas
+wefed
+wefweas
+  qwre;d
+qq
+ddddddefwe;
+wgqwrerge
+tywf wdddddewqreeefwe
+wwwwj;qwr  ddddewtq
 ewf;
 wef
-eeeeeeewefwe dd
-rtyj
+eeeqeeeeewefwe dd
+rtyjq
 ryjrtyjrt
-yj
-rtyj
-tryjtryjrtyj
-rtjytryjtryjtryjr
-tyjtfdsg
+yjqw
+rtwyrj
+gerge  ewqetwewet  ewtwetq  rgwerg      tryjtwqryjrtyj
+rtjytryrjtryjtryjr
+tyjtfdsgqw
   wdqwe
-    qwe
+    qwewq
        qwe
-          we;
+ewf          we;
           qwe
-            qwe;
-  wef            qwe;
-weeewegwg              qwfqwf;
-e              qwfqwf;
- e             qwf;q
+            qwwe;
+  wef       eg     qwe;
+weeewegwg  w            qwfqwf;
+eeeeeeeeee              qwfqwf;
+wefwef e             qwf;q
   e              qwf;
-       wefwef         wqf
-                  wqf;
-ewefwwwegf                  weqwf;
-wef                  wq
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee                    q
-fwef                      f
+      wegweg wefwef         wqf
+d                  wqf;
+ewqwdfqwfqwfqwfqwfqwfqwfwfwefwefwewererwerwerwerewrefwwwegf                  weqwf;
+wfwefwegwegee`ewef                 werwer wq
+wfwegwegeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee                    q
+fwef                   werwerwerwer   f
     w                    
      f                   ewgwe;wegweg
-      we                  we;wegwegweg
-        f;
+ewwerwer      we                  we;wegwegweg
+sdvsdv        f;
         wef;                     qwf;wegweg  ergb  wrrgwreg  wgweg  rwgerg wrg3rewwfwefwef
                                wef
   ereg                               wef
 re                                   wef;wef
-wefewf;
+wefewf;werwerwer
 wef;
 wef;wef
-  wef;wef;
+  wewerwerewrwerf;wef;
   qw;
-
+222
 qwfqw
   f
     qw
@@ -74,15 +71,15 @@ qwfqw
               qw
                 f
                   q
-                    wf
-                      qwf;qwf
-                        qw;fqw;
-                      
-wef
-
-wef  wef
-   wef w
-      efwef;
+33333                    wf
+     33                 qwf;qwf
+       333                 qw;fqw;
+ewfwegwegwegweg                      
+wefdsgsdg
+sd
+wegf  wef
+wwwsdgeeeeeeeee   wef w
+      sdefwef;
       wef;
       ewfr
         wer
@@ -92,4 +89,4 @@ wef  wef
             wer
               wer
                 w
-                  wefwef
+                  wefwefwfwef

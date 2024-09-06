@@ -3,8 +3,9 @@
 #include <vector>
 
 #define vec_str std::vector<std::string>
-#define uint	unsigned int
-#define uchar	unsigned char
+#define uint	 unsigned int
+#define ushort unsigned short
+#define uchar	 unsigned char
 
 #define KEY_TAB 9
 #define KEY_ESC	27
@@ -19,6 +20,7 @@ void init_ncurses(void) {
 	noecho();
 	keypad(stdscr, TRUE);
 }
+
 
 
 
@@ -71,33 +73,19 @@ void check_sym(vec_str &lines, int &c, uint &x, uint &y)
 
 
 
-int getinfolen(const char *filename, int x, int y);
-size_t sc = 0;
-int draw_text(const char *filename, vec_str lines, int c, uint x, uint y) {
-	clear();
+ushort getinfolen(const char *filename, int x, int y);
+int draw_text(const char *filename, vec_str lines, size_t &start, size_t &end, uint x, uint y) {
+	wclear(stdscr);
 
-	int infolen;
-	infolen = getinfolen(filename, x, y);
-	mvprintw(LINES-1, COLS-infolen, "%s: %dl, %ds", filename, y+1, x+1);
+	mvprintw(LINES-1, COLS-getinfolen(filename, x, y)-7, "%s: %dl, %ds", filename, y+1, x+1);
 
-	if (y > LINES - 1) {
-		if (y % LINES == 0) { /* IF NEW LINES(DOWN THAT CURRENT LINES) */
-			if (c == KEY_DOWN)		sc++;
-			else if (c == KEY_UP)	sc--;
-		}
+	if (y < start) {--end, --start;} /*UP WIN*/
+	if (y > end)   {++end, ++start;} /* DOWN WIN */
+	for (size_t i = start, k = 0; i <= end && i < lines.size(); ++i, ++k)
+		mvprintw(k, 0, "%s", lines[i].c_str());
+	move(y-start, x);
 	
-		for (size_t i = LINES-1 + sc, k = 0; i < lines.size(); ++i, ++k)
-			mvprintw(k, 0, "%s", lines[i].c_str());
-
-		move(y-LINES, x);
-	} else {
-		for (size_t i = 0; i < lines.size(); ++i)
-			mvprintw(i, 0, "%s", lines[i].c_str());
-
-		move(y, x);
-	}
-
-	refresh();
+	wrefresh(stdscr);
 	return 1;	
 }
 
@@ -107,12 +95,11 @@ int draw_text(const char *filename, vec_str lines, int c, uint x, uint y) {
 
 
 
-int getinfolen(const char *filename, int x, int y)
+ushort getinfolen(const char *filename, int x, int y)
 {
-	int r;
- 	r = 0;
+	ushort r = 0;
 
-  	/* + cxlen */
+  /* + cxlen */
 	if (!x)  ++r;
 	else	  for (;x; x/=10, ++r);
 
@@ -123,7 +110,5 @@ int getinfolen(const char *filename, int x, int y)
 	/* + filenamelen */
 	r += ((std::string)filename).length();
 
-	/* + another syms inc */
-	r += 7;
 	return r;
 }
