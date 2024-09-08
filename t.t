@@ -1,0 +1,32 @@
+w
+e
+fwefwefwqqweqweqwewefwwefwefwefwefwefwefwefwfewef
+  qewfw
+    ewf;w
+      we;gw
+        ;egw
+          eg
+            ;weg;w;e
+              ;w;
+              egw;
+    weg;we
+      g;w
+        eg;we;gw;e
+          g;w;eg;
+          w
+            e;g;w;eg;we;g;;we;g
+              w
+                eg;w;
+                eg;w
+                  eg;w;eg;
+                  w;eg;
+                  weg;
+                  weg;w;
+                  eg;
+                  w;e
+                    g;weg;w
+                      ;egw
+                        e;g;w;gw;
+                        eg;
+                        we;gw
+                          e;g

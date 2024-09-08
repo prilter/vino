@@ -45,10 +45,8 @@ void check_sym(vec_str &lines, int &c, uint &x, uint &y)
 				break;
 
 			case ENTER:
-			{
-				enter(lines, x, y);
+				{enter(lines, x, y);}
 				break;
-			}
 			case KEY_BACKSPACE:
 				backspace(lines, x, y);
 				break;

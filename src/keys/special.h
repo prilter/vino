@@ -2,7 +2,7 @@
 #include <algorithm>
 bool onlyspaces(std::string s) {return std::all_of(s.begin(), s.end(), [](uchar c) { return std::isspace(c); });}
 
-#define enter(lines, x, y)																														\
+#define enter(lines, x, y) 																														\
 	/* MAKING NEW LINE */																																\
 	lines.insert(lines.begin() + y + 1, "");																						\
 																																											\
