@@ -79,4 +79,26 @@ if (x == lines[y].length() && y < lines.size()-1) { /*IF END OF LINE */								\
 #define tab(lines, x, y)																															\
 lines[y].insert(x, "  ");																															\
 x+=2;																																									\
-	
+
+
+
+
+
+
+
+#define findline(lines, y)																														\
+char line[20];																																				\
+size_t num;																																						\
+																																											\
+echo(); /* TEMPORALY TURN ON THIS TO SEE USER TEXT IN MVGETSTR */											\
+mvprintw(LINES-2, 2, "line id: ");																										\
+mvgetstr(LINES-2, 2+9, line);																													\
+num = atoi(line);																																			\
+noecho();																																							\
+																																											\
+if (num-1 < lines.size()) {																														\
+	y = num-1;																																					\
+	if (x > lines[y].length())																													\
+		x = lines[y].length();																														\
+}																																											\
+
