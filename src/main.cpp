@@ -1,8 +1,6 @@
 #include <ncurses.h>
 #include <vector>
 #include <string>
-#include <fstream>
-#include <iostream>
 
 #define vec_str 	std::vector<std::string>
 #define uint		unsigned int

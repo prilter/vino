@@ -3,9 +3,11 @@
 #include <vector>
 
 #define vec_str std::vector<std::string>
-#define uint	 unsigned int
-#define ushort unsigned short
-#define uchar	 unsigned char
+#define str			std::string
+
+#define uint		unsigned int
+#define uchar		unsigned char
+#define ushort	unsigned short
 
 #define KEY_TAB 9
 #define KEY_ESC	27
@@ -71,42 +73,21 @@ void check_sym(vec_str &lines, int &c, uint &x, uint &y)
 
 
 
-ushort getinfolen(const char *filename, int x, int y);
+#include <cstdio>
 int draw_text(const char *filename, vec_str lines, size_t &start, size_t &end, uint x, uint y) {
 	wclear(stdscr);
-
-	mvprintw(LINES-1, COLS-getinfolen(filename, x, y)-7, "%s: %dl, %ds", filename, y+1, x+1);
+	
+	char info[COLS];
+	sprintf(info, "%dl, %ds %.0f%%", y+1, x+1, 100*((float)y)/(lines.size()-1));
+	mvprintw(LINES-1, COLS-((str)info).length()-2, "%s", info);
+	mvprintw(LINES-1, 2, "%s", filename);
 
 	if (y < start) {--end, --start;} /*UP WIN*/
-	if (y > end)   {++end, ++start;} /* DOWN WIN */
-	for (size_t i = start, k = 0; i <= end && i < lines.size(); ++i, ++k)
+	if (y >= end)  {++end, ++start;} /* DOWN WIN */
+	for (size_t i = start, k = 0; i < end && i < lines.size(); ++i, ++k)
 		mvprintw(k, 0, "%s", lines[i].c_str());
 	move(y-start, x);
 	
 	wrefresh(stdscr);
 	return 1;	
-}
-
-
-
-
-
-
-
-ushort getinfolen(const char *filename, int x, int y)
-{
-	ushort r = 0;
-
-  /* + cxlen */
-	if (!x)  ++r;
-	else	  for (;x; x/=10, ++r);
-
-	/* + cxlen */
-	if (!y) ++r;
-	else    for (;y; y/=10, ++r);
-
-	/* + filenamelen */
-	r += ((std::string)filename).length();
-
-	return r;
 }

@@ -2,35 +2,38 @@
 #include <algorithm>
 bool onlyspaces(std::string s) {return std::all_of(s.begin(), s.end(), [](uchar c) { return std::isspace(c); });}
 
-#define enter(lines, x, y) 																														\
-	/* MAKING NEW LINE */																																\
-	lines.insert(lines.begin() + y + 1, "");																						\
-																																											\
-	/* GET FORWARD TEXT IN LINE */																											\
-	std::string nexttext = "";																													\
-	if (x < lines[y].length()) { /* IF NOT END OF LINE AND ENTERED */										\
-		nexttext = lines[y].substr(x, lines[y].length());																	\
-		lines[y].erase(x); /* ERASE ALL FROM STARTED CURRENT X POS IN LINES */						\
-	}																																										\
-																																											\
-	/* AUTO COMPLETER(TABS) */																													\
-	x = 0;																																							\
-	for (size_t i = 0; lines[y][i] == ' '; i++) {																				\
-		lines[y+1].append(" ");																														\
-		x++;																																							\
-	}																																										\
-																																											\
-	/* IF NOT ; IN END OF LINE THEN AUTO TAB */																					\
-	if (lines[y][lines[y].length()-1] != ';' && !onlyspaces(lines[y]) && nexttext=="") {\
-		lines[y+1].append("  ");																													\
-		x += 2;																																						\
-	}																																										\
-																																											\
-	/* EMPTY APPENDING IF CUR X NOT IN END */																						\
-	lines[y+1].append(nexttext);																												\
-																																											\
-	++y; /* NEW LINE */																																	\
-																																											\
+#define enter(lines, x, y)																															\
+	if (x == 0) {/* START LINE  */																												\
+		lines.insert(lines.begin()+y+1, "");																								\
+		if (!lines.empty()) {	/* IF HAVE ANY TEXT IN LINE */																\
+			lines[y+1].append(lines[y].substr(x, lines[y].length()));													\
+			lines[y++].erase(x);																															\
+		}																																										\
+	} else {																																							\
+		/* MAKING NEW LINE */																																\
+		lines.insert(lines.begin() + y + 1, "");																						\
+																																												\
+		/* GET FORWARD TEXT IN LINE */																											\
+		std::string nexttext = "";																													\
+		nexttext = lines[y].substr(x, lines[y].length());																		\
+		lines[y].erase(x); /* ERASE ALL FROM STARTED CURRENT X POS IN LINES */							\
+																																												\
+		/* AUTO COMPLETER(TABS) */																													\
+		x = 0;																																							\
+		for (size_t i = 0; lines[y][i] == ' '; i++) {																				\
+			lines[y+1].append(" ");																														\
+			x++;																																							\
+		}																																										\
+																																												\
+		/* IF NOT ; IN END OF LINE THEN AUTO TAB */																					\
+		if (lines[y][lines[y].length()-1] != ';' && !onlyspaces(lines[y]) && nexttext=="") {\
+			lines[y+1].append("  ");																													\
+			x += 2;																																						\
+		}																																										\
+																																												\
+		/* EMPTY APPENDING IF CUR X NOT IN END */																						\
+		lines[y++ + 1].append(nexttext);																										\
+	}																																											\
 
 
 
