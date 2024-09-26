@@ -83,7 +83,7 @@ int draw_text(const char *filename, vec_str lines, size_t &start, size_t &end, u
 	wclear(stdscr);
 	
 	char info[COLS];
-	sprintf(info, "%dl, %ds %.0f%%", y+1, x+1, 100*((float)y)/(lines.size()-1));
+	sprintf(info, "%dl, %ds %.0f%%", y+1, x+1, 100*((float)y+1)/(lines.size()));
 	mvprintw(LINES-1, COLS-((str)info).length()-2, "%s", info);
 	mvprintw(LINES-1, 2, "%s", filename);
 	

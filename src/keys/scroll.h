@@ -46,8 +46,11 @@ else if (y < lines.size()-1) /* MOVE TO NEXT LINE IF END */					\
 
 /* LEFT */
 #define left(lines, x , y)																					\
-if (x > 0)																													\
-	--x;																															\
-else if (y > 0) /* MOVE UP(x IN END) */															\
+if (x > 0) {																												\
+	if (lines[y][x-1] == ' ' && lines[y][x-2] == ' ')									\
+		for (;lines[y][x-- - 1] == ' ' && x > 0;)												\
+				;																														\
+	else x--;																													\
+} else if (y > 0) /* MOVE UP(x IN END) */														\
 	x = lines[--y].length();																					\
 

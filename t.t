@@ -1,0 +1,85 @@
+wefge
+fwe
+fweg;w
+e;g;we
+;g;w
+e;gw;
+eg;
+we;g;w
+eg;
+w;eg;w;
+eg;
+weg;w;eg;we
+;gw ;g;we;
+g;w;eg;w;eg;w;
+e;gweg;w;
+eg s
+;v w;egw;
+g;w;eg
+w;weg;we
+g;w;eg;
+rq
+wqeerg
+  e
+    rg
+          er
+            q
+              er
+                g
+                  e;
+                  erg
+                    ;;e
+                      ;g
+                        erg;e
+                          ;r;g;
+                          e;
+                          rg;
+                          e;
+                          rg;e;rg;
+                          e;
+                          
+                          g;e
+                            ;rg;
+                            e;
+                            gr;
+                            e;
+                            rg;
+                            e;r
+  dsv;sdb
+  s;db;
+  sd;b;sd
+  b;s;db;;
+  dsb;s;b;sdb;sd;b;
+  sd;b;sdb;
+  s;db;sdb;s;db;s;db
+          s;bs;db;s;db
+  s;db;
+  sd;bs;
+  bd;
+  sdb;
+  sd;b
+  s;db
+  ;sdb;;s
+  db;s;dbs
+  ;                            g;e;
+                              rg;
+                              e
+                                ;rg;e;
+                                r;g;erg;e;gr;
+                                e;
+                                ;
+                                ge;r;
+                                ge;rg;e
+                                  ;rg;e;rg;
+                                  e
+                                    ;r
+                                      g;e;g;e;
+                                      rg;
+                                      e;rg;e
+                                        ;rg;e;rg;
+                                        e;
+                                        rg;e;rg;
+                                        e;
+                                        rg;
+                                        eg;
+                                          wef;

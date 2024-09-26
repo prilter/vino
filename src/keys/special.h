@@ -47,6 +47,8 @@ if (x == 0 && y > 0) { /* IF IN START THEN MOVE LINE UP */														\
 	lines[y-1].append(lines[y]);																												\
 	lines.erase(lines.begin() + y--);																										\
 } else if (x > 0) {																																		\
+	if (lines[y][x-1] == ' ' && lines[y][x-2] == ' ')	/* IF "TAB" */										\
+		lines[y].erase(x-- - 1, 1);																												\
 	lines[y].erase(x-- - 1, 1); /* ERASE SYM */																					\
 } else if (y > 0) { /* ERASING FROM x = 0 THEN CUR LINE UPPING */											\
 	lines.erase(lines.begin() + y);																											\
@@ -87,18 +89,16 @@ x+=2;																																									\
 
 
 #define findline(lines, y)																														\
-char line[20];																																				\
+char ln[20];																																					\
 size_t num;																																						\
 																																											\
 echo(); /* TEMPORALY TURN ON THIS TO SEE USER TEXT IN MVGETSTR */											\
 mvprintw(LINES-2, 2, "line id: ");																										\
-mvgetstr(LINES-2, 2+9, line);																													\
-num = atoi(line);																																			\
+mvgetstr(LINES-2, 2+9, ln); /* 9 - line id len */																			\
 noecho();																																							\
+num = atoi(ln);																																				\
 																																											\
-if (num-1 < lines.size()) {																														\
-	y = num-1;																																					\
-	if (x > lines[y].length())																													\
-		x = lines[y].length();																														\
-}																																											\
-
+if (num-1 < lines.size()) y = num-1;																									\
+else											y = lines.size()-1;																					\
+if (x > lines[y].length()) /* MOVE CURSOR TO END IF X > CUR LINE MAX X */							\
+		x = lines[y].length();
