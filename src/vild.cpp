@@ -2,26 +2,17 @@
 #include <string>
 #include <vector>
 
-#define vec_str std::vector<std::string>
-#define str			std::string
-
-#define uint		unsigned int
-#define uchar		unsigned char
-#define ushort	unsigned short
-
-#define KEY_TAB		9
-#define KEY_ESC		27
-#define ENTER			10
-#define KEY_SLASH 31 
+#include "macros.h"
 
 
 
-
-void init_ncurses(void) {
+int init_ncurses(void) {
 	initscr();
 	raw();
 	noecho();
 	keypad(stdscr, TRUE);
+
+	return 1;
 }
 
 
@@ -31,7 +22,7 @@ void init_ncurses(void) {
 #include "keys/scroll.h"
 #include "keys/special.h"
 #include <cstdlib>
-void check_sym(vec_str &lines, int &c, uint &x, uint &y)
+int check_sym(vec_str &lines, int &c, uint &x, uint &y)
 {
 	if ((c = wgetch(stdscr)) != KEY_ESC) { /* GO NEXT TO WAITING CYCLE CHECKING ESC AS END OF WRITTING */
 		switch (c) {
@@ -71,6 +62,8 @@ void check_sym(vec_str &lines, int &c, uint &x, uint &y)
 				break;
 		}
 	}
+
+	return 1;
 }
 
 
@@ -79,7 +72,7 @@ void check_sym(vec_str &lines, int &c, uint &x, uint &y)
 
 
 
-int draw_text(const char *filename, vec_str lines, size_t &start, size_t &end, uint x, uint y) {
+int draw_text(const char *filename, vec_str &lines, size_t &start, size_t &end, uint x, uint y) {
 	wclear(stdscr);
 	
 	char info[COLS];

@@ -2,14 +2,14 @@
 #include <vector>
 #include <string>
 
-#define vec_str std::vector<std::string>
-#define str	std::string
+#include "macros.h"
+
 
 /* SAVE INFO( slow :( ) */
-int save(const char *filename, vec_str *lines)
+int save(const char *filename, vec_str &lines)
 {
 	std::ofstream file(filename);
-	for (const std::string line : *lines)
+	for (const str line : lines)
 		file << line << '\n';
 
 	file.close();
@@ -17,21 +17,23 @@ int save(const char *filename, vec_str *lines)
 }
 
 /* GET START INFO */
-#include <sys/stat.h>
-int read_info(const char *filename, vec_str &lines)
+#define touch(filename) system(((str)"touch " + filename).c_str())
+vec_str read_info(const char *filename)
 {
 	std::ifstream file(filename);
-	if (!file) {
-		//touch(filename);
-		file.open(filename);
-	}
-
-	std::getline(file, lines[0]); /* ESCAPING NEW LINE AFTER EVERY START */
 	
-	str line;
-	for (;std::getline(file, line);)
-		lines.push_back(line);
+	/* HAVE A FILE */
+	if (file) { 
+		vec_str lines(0);
+		for (str line; std::getline(file, line);)
+			lines.push_back(line);
 
-	file.close();
-	return 1;
+		file.close();
+		return lines;
+	}
+	
+	/* MAKE FILE */
+	touch((str)filename);
+	vec_str lines(1);
+	return lines;
 }

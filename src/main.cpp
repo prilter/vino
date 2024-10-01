@@ -2,19 +2,16 @@
 #include <vector>
 #include <string>
 
-#define vec_str 	std::vector<std::string>
-#define uint		unsigned int
-
-#define KEY_ESC 27
+#include "macros.h"
 
 /* VILD */
-extern void init_ncurses();
-extern void check_sym(vec_str &lines, int &c, uint &x, uint &y);
-extern int  draw_text(const char *filename, vec_str lines, size_t &start, size_t &end, uint x, uint y);
+extern int init_ncurses(void);
+extern int check_sym(vec_str &lines, int &c, uint &x, uint &y);
+extern int draw_text(const char *filename, vec_str &lines, size_t &start, size_t &end, uint x, uint y);
 
 /* FILEWORKING */
-extern int  save(const char *filename, vec_str *lines);
-extern int  read_info(const char *filename, vec_str &lines);
+extern int			save(const char *filename, vec_str &lines);
+extern vec_str	read_info(const char *);
 
 int main(int argc, const char **argv)
 {
@@ -25,20 +22,20 @@ int main(int argc, const char **argv)
 	init_ncurses();
 
 	/* INIT ALL WORKING VARS */
-	vec_str lines(1);
-	size_t start = 0, end = LINES-1;
-	uint x, y;
-	int c;
+	vec_str			lines;
+	size_t			start, end;
+	uint				x, y;
+	int					c;
 
 	/* MAIN PROCCESS */
-	read_info(*argv, lines);
-	for (x = 0, y = 0; c != KEY_ESC ;) {
+	lines = read_info(*argv);
+	for (x = 0, y = 0, start = 0, end = LINES-1; c != KEY_ESC ;) {
 		draw_text(*argv, lines, start, end, x, y);
 		check_sym(lines, c, x, y);	
 	}
 
 	/* SAVE INFO AND QUIT */
 	endwin();
-	save(*argv, &lines);
+	save(*argv, lines);
 	return 0;
 }

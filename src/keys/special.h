@@ -1,6 +1,6 @@
 /* ENTER */
 #include <algorithm>
-bool onlyspaces(std::string s) {return std::all_of(s.begin(), s.end(), [](uchar c) { return std::isspace(c); });}
+bool onlyspaces(std::string &s) {return std::all_of(s.begin(), s.end(), [](uchar c) { return std::isspace(c); });}
 
 #define enter(lines, x, y)																															\
 	if (x == 0) {/* START LINE  */																												\
