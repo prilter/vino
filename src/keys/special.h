@@ -2,39 +2,25 @@
 #include <algorithm>
 bool onlyspaces(std::string &s) {return std::all_of(s.begin(), s.end(), [](uchar c) { return std::isspace(c); });}
 
+#define have(line, s) (line.find(s) < line.length())
 #define enter(lines, x, y)																															\
-	if (x == 0) {/* START LINE  */																												\
-		lines.insert(lines.begin()+y+1, "");																								\
-		if (!lines.empty()) {	/* IF HAVE ANY TEXT IN LINE */																\
-			lines[y+1].append(lines[y].substr(x, lines[y].length()));													\
-			lines[y++].erase(x);																															\
-		}																																										\
-	} else {																																							\
 		/* MAKING NEW LINE */																																\
 		lines.insert(lines.begin() + y + 1, "");																						\
 																																												\
-		/* GET FORWARD TEXT IN LINE */																											\
-		std::string nexttext = "";																													\
-		nexttext = lines[y].substr(x, lines[y].length());																		\
-		lines[y].erase(x); /* ERASE ALL FROM STARTED CURRENT X POS IN LINES */							\
-																																												\
 		/* AUTO COMPLETER(TABS) */																													\
-		x = 0;																																							\
-		for (size_t i = 0; lines[y][i] == ' '; i++) {																				\
-			lines[y+1].append(" ");																														\
-			x++;																																							\
-		}																																										\
-																																												\
-		/* IF NOT ; IN END OF LINE THEN AUTO TAB */																					\
-		if (lines[y][lines[y].length()-1] != ';' && !onlyspaces(lines[y]) && nexttext=="") {\
+		size_t lx = 0;																																			\
+		if (x != 0 && !have(lines[y], "#"))																									\
+			for (; lines[y][lx] == ' '; lx++)																									\
+				lines[y+1].append(" ");																													\
+		if (!have(lines[y], ";") && !onlyspaces(lines[y])) {																\
 			lines[y+1].append("  ");																													\
-			x += 2;																																						\
+			lx+=2;																																						\
 		}																																										\
 																																												\
 		/* EMPTY APPENDING IF CUR X NOT IN END */																						\
-		lines[y++ + 1].append(nexttext);																										\
-	}																																											\
-
+		lines[y + 1].append(lines[y].substr(x, lines[y].length()));													\
+		lines[y++].erase(x); /* ERASE ALL FROM STARTED CURRENT X POS IN LINES */						\
+		x = lx;																																							\
 
 
 

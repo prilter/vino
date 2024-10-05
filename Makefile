@@ -1,6 +1,6 @@
 debug:
-	clang++ src/main.cpp -c
-	clang++ src/fileworking.cpp -c
-	clang++ src/vild.cpp -c
-	clang++ *.o -o bin/vild -std=c++17 -lncurses
+	g++ src/main.cpp -c
+	g++ src/fileworking.cpp -c
+	g++ src/vino.cpp -c
+	g++ *.o -o bin/vino -std=c++17 -lncurses
 	rm *.o
