@@ -9,3 +9,4 @@
 #define KEY_ESC		27
 #define ENTER			10
 #define KEY_SLASH 31 
+#define PASTE_KEY	22

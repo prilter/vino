@@ -83,7 +83,7 @@ int draw_text(const char *filename, vec_str &lines, size_t &start, size_t &end, 
 	/* UPPING || DOWNING(used for because ctnl + /) */
 	if (y < start) for (; y < start; --end, --start); /* UP */
 	if (y >= end)	 for (; y >= end ; ++end, ++start); /* DOWN */
-	for (size_t i = start, k = 0; i < lines.size(); ++i, ++k)
+	for (size_t i = start, k = 0; i < end && i < lines.size(); ++i, ++k)
 		mvprintw(k, 0, "%s", lines[i].c_str());
 	move(y-start, x);
 	
