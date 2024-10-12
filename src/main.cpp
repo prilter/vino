@@ -6,8 +6,8 @@
 
 /* VILD */
 extern int init_ncurses(void);
-extern int check_sym(vec_str &lines, int &c, uint &x, uint &y, bool &is_saved, const char *filename);
-extern int draw_text(const char *filename, vec_str &lines, size_t &start, size_t &end, uint x, uint y);
+extern int check_sym(parms *vino);
+extern int draw_text(parms *vino);
 
 /* FILEWORKING */
 extern vec_str	read_info(const char *);
@@ -21,24 +21,21 @@ int main(int argc, const char **argv)
 	++argv;
 	init_ncurses();
 
-	/* INIT ALL WORKING VARS */
-	vec_str			lines;
-	size_t			start, end;
-	bool				is_saved;
-	uint				x, y;
-	int					c;
+	/* INIT */
+	parms vino;
+	vino.filename = *argv;
 
 	/* MAIN PROCCESS */
-	lines = read_info(*argv);
-	for (x = 0, y = 0, start = 0, end = LINES-1, is_saved = false;;) {
-		for (; c != KEY_ESC ;) {
-			draw_text(*argv, lines, start, end, x, y);
-			check_sym(lines, c, x, y, is_saved, *argv);
+	vino.lines = read_info(vino.filename);
+	for (vino.x = 0, vino.y = 0, vino.start = 0, vino.end = LINES-1, vino.is_saved = false;;) {
+		for (; vino.c != KEY_ESC ;) {
+			draw_text(&vino);
+			check_sym(&vino);
 		}
 
-		if (is_saved == false) {
+		if (vino.is_saved == false) {
 			mvprintw(LINES-1, 1, "File not saved!");
-			c = 500; /* NEED BECAUSE C = ESC SKIPPING FIRST CYCLE -> INFINITY CYCLE */
+			vino.c = 500; /* NEED BECAUSE C = ESC SKIPPING FIRST CYCLE -> INFINITY CYCLE */
 		} else
 			break;
 	}

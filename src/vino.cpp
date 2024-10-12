@@ -22,49 +22,49 @@ int init_ncurses(void) {
 #include "keys/scroll.h"
 #include "keys/special.h"
 #include <cstdlib>
-int term_mode(vec_str &lines, uint &x, uint &y, bool &is_saved, const char *filename);
-int check_sym(vec_str &lines, int &c, uint &x, uint &y, bool &is_saved, const char *filename)
+int term_mode(parms *vino);
+int check_sym(parms *vino)
 {
-	if ((c = wgetch(stdscr)) != KEY_ESC) { /* GO NEXT TO WAITING CYCLE CHECKING ESC AS END OF WRITTING */
-		switch (c) {
+	if ((vino->c = wgetch(stdscr)) != KEY_ESC) { /* GO NEXT TO WAITING CYCLE CHECKING ESC AS END OF WRITTING */
+		switch (vino->c) {
 			case KEY_UP:
-				up(lines, x, y);
+				up((vino->lines), (vino->x), (vino->y));
 				break;
 			case KEY_DOWN:
-				down(lines, x, y);
+				down((vino->lines), (vino->x), (vino->y));
 				break;
 			case KEY_RIGHT:
-				right(lines, x, y);
+				right((vino->lines), (vino->x), (vino->y));
 				break;
 			case KEY_LEFT:
-				left(lines, x, y);
+				left((vino->lines), (vino->x), (vino->y));
 				break;
 
 			case ENTER:
-				{enter(lines, x, y);}
-				is_saved = false;
+				{enter((vino->lines), (vino->x), (vino->y));}
+				vino->is_saved = false;
 				break;
 			case KEY_BACKSPACE:
-				backspace(lines, x, y);
-				is_saved = false;
+				backspace((vino->lines), (vino->x), (vino->y));
+				vino->is_saved = false;
 				break;
 			case KEY_DC:
-				dc(lines, x, y);
-				is_saved = false;
+				dc((vino->lines), (vino->x), (vino->y));
+				vino->is_saved = false;
 				break;
 			case KEY_TAB:
-				tab(lines, x, y);
-				is_saved = false;
+				tab((vino->lines), (vino->x), (vino->y));
+				vino->is_saved = false;
 				break;
 			case KEY_SLASH:{
-				term_mode(lines, x, y, is_saved, filename);
+				term_mode(vino);
 				break;
 			}
 
 			default:
-				if (c >= 32 && c <= 126 && c != KEY_BACKSPACE && c != KEY_TAB && c != KEY_SLASH)
-					lines[y].insert(x++, 1, c);
-				is_saved = false;
+				if (vino->c >= 32 && vino->c <= 126 && vino->c != KEY_BACKSPACE && vino->c != KEY_TAB && vino->c != KEY_SLASH)
+					(vino->lines)[vino->y].insert((vino->x)++, 1, vino->c);
+				vino->is_saved = false;
 				break;
 		}
 	}
@@ -78,22 +78,21 @@ int check_sym(vec_str &lines, int &c, uint &x, uint &y, bool &is_saved, const ch
 
 
 
-int draw_text(const char *filename, vec_str &lines, size_t &start, size_t &end, uint x, uint y) {
+int draw_text(parms *vino) {
 	wclear(stdscr);
 	
 	char info[COLS];
-	sprintf(info, "%dl, %ds %.0f%%", y+1, x+1, 100*((float)y+1)/(lines.size()));
+	sprintf(info, "%dl, %ds %.0f%%", vino->y+1, vino->x+1, 100*((float)(vino->y)+1)/((vino->lines).size()));
 	mvprintw(LINES-1, COLS-((str)info).length()-1, "%s", info);
-	mvprintw(LINES-1, 1, "%s", filename);
+	mvprintw(LINES-1, 1, "%s", vino->filename);
 	
 	/* UPPING || DOWNING(used for because ctnl + /) */
-	for (; end > lines.size(); --end); /* END > LINES SIZE */
-	for (; y < start; --start, --end); /* UP */
-	for (; y >= end ; ++end, ++start); /* DOWN */
+	for (; vino->y <  vino->start;	--(vino->start), --(vino->end)); /* UP */
+	for (; vino->y >= vino->end ;	  ++(vino->end), ++(vino->start)); /* DOWN */
 
-	for (size_t k = 0; start+k < end; ++k)
-		mvprintw(k, 0, "%s", lines[start+k].c_str());
-	move(y-start, x);
+	for (size_t k = 0; vino->start+k < vino->end && vino->start+k < (vino->lines).size(); ++k)
+		mvprintw(k, 0, "%s", (vino->lines)[vino->start+k].c_str());
+	move(vino->y-vino->start, vino->x);
 	
 	wrefresh(stdscr);
 	return 1;	
@@ -107,7 +106,7 @@ int draw_text(const char *filename, vec_str &lines, size_t &start, size_t &end, 
 
 extern int save(const char *, vec_str &);
 extern int f_term_getting_line(str &com);
-int term_mode(vec_str &lines, uint &x, uint &y, bool &is_saved, const char *filename) 
+int term_mode(parms *vino) 
 {
 	str com;
 
@@ -122,11 +121,11 @@ int term_mode(vec_str &lines, uint &x, uint &y, bool &is_saved, const char *file
 	for (size_t i = 0; i <= com.length(); i++) {
 		switch(com[i]) {
 			case 's':
-				save(filename, lines);
-				is_saved = true;
+				save(vino->filename, vino->lines);
+				vino->is_saved = true;
 				break;
 			case 'q':
-				if (is_saved) {
+				if (vino->is_saved) {
 					endwin();
 					exit(0);
 				}
