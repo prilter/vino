@@ -13,6 +13,12 @@ extern int draw_text(parms *vino);
 extern vec_str	read_info(const char *);
 
 /* MAIN */
+#define crunch									\
+if ((vino.lines)[0].empty()) {	\
+	(vino.lines)[0].append(" ");	\
+	(vino.lines)[0].erase();			\
+}																\
+	
 int main(int argc, const char **argv)
 {
 	/* INIT PROGRAMM */
@@ -27,7 +33,8 @@ int main(int argc, const char **argv)
 
 	/* MAIN PROCCESS */
 	vino.lines = read_info(vino.filename);
-	for (vino.x = 0, vino.y = 0, vino.start = 0, vino.end = LINES-1, vino.is_saved = false;;) {
+	crunch /* ESCAPING EMPTY FILE ERROR */	
+	for (vino.x = 0, vino.y = 0, vino.start = 0, vino.end = LINES-1, vino.is_saved = true;;) {
 		for (; vino.c != KEY_ESC ;) {
 			draw_text(&vino);
 			check_sym(&vino);
