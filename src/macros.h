@@ -11,7 +11,7 @@
 typedef struct {
 	vec_str			lines;
 	const char *filename;
-	size_t			start, end;
+	size_t			start;
 	bool				is_saved;
 	uint				x, y;
 	int					c;

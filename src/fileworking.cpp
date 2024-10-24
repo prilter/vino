@@ -5,13 +5,14 @@
 #include "macros.h"
 
 
-/* SAVE INFO( slow :( ) */
+#include <cstdio>
 int save(const char *filename, vec_str &lines)
 {
 	std::ofstream file(filename);
+	
 	for (const str line : lines)
 		file << line << '\n';
-
+	
 	file.close();
 	return 1;	
 }
@@ -34,6 +35,7 @@ vec_str read_info(const char *filename)
 	
 	/* MAKE FILE */
 	touch((str)filename);
-	vec_str lines(1);
+	vec_str lines(0);
+	lines.push_back((str)"");
 	return lines;
 }

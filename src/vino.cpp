@@ -55,15 +55,14 @@ int check_sym(parms *vino)
 				tab((vino->lines), (vino->x), (vino->y));
 				vino->is_saved = false;
 				break;
-			case KEY_SLASH:{
+			case KEY_SLASH:
 				term_mode(vino);
 				break;
-			}
 
 			default:
-				if (vino->c >= 32 && vino->c <= 126 && vino->c != KEY_BACKSPACE && vino->c != KEY_TAB && vino->c != KEY_SLASH) {
-					(vino->lines)[vino->y].insert((vino->x)++, 1, vino->c);
-					 vino->is_saved = false;
+				if (vino->c != KEY_TAB && vino->c != KEY_BACKSPACE && vino->c != KEY_TAB) {
+					(vino->lines)[vino->y].insert((vino->x)++, 1, vino->c);	
+					vino->is_saved = false;
 				}
 				break;
 		}
@@ -78,6 +77,7 @@ int check_sym(parms *vino)
 
 
 
+#define end ((vino->start)+LINES-1)
 int draw_text(parms *vino) {
 	wclear(stdscr);
 	
@@ -86,11 +86,13 @@ int draw_text(parms *vino) {
 	mvprintw(LINES-1, COLS-((str)info).length()-1, "%s", info);
 	mvprintw(LINES-1, 1, "%s", vino->filename);
 	
-	/* UPPING || DOWNING(used for because ctnl + /) */
-	for (; vino->y <  vino->start;	--(vino->start), --(vino->end)); /* UP */
-	for (; vino->y >= vino->end ;	  ++(vino->end), ++(vino->start)); /* DOWN */
+	/* UPPING || DOWNING */
+	if (vino->y <  vino->start) /* UP */
+		--(vino->start);
+	if (vino->y >= end) /* DOWN */
+		++(vino->start);
 
-	for (size_t k = 0; vino->start+k < vino->end && vino->start+k < (vino->lines).size(); ++k)
+	for (size_t k = 0; vino->start+k < end && vino->start+k < (vino->lines).size(); ++k)
 		mvprintw(k, 0, "%s", (vino->lines)[vino->start+k].c_str());
 	move(vino->y-vino->start, vino->x);
 	
@@ -104,31 +106,32 @@ int draw_text(parms *vino) {
 
 
 
-#define COMLEN 1024
-#include <cstdlib>
-#include <cstdio>
+#define COMLEN  1024
+#define SURELEN 3
+#define ask(s, s1)															\
+	echo();																				\
+	move(LINES-1, 1);															\
+	clrtoeol();																		\
+	mvprintw(LINES-1, 1, s);											\
+	mvgetstr(LINES-1, ((str)(s)).length()+1, s1);	\
+	noecho();
 extern int save(const char *, vec_str &);
-extern int f_term_getting_line(str &com);
 int term_mode(parms *vino) 
 {
-	char *com;
+	char *com, *sure;
 
 	/* GETTING COMMAND */
-	echo();
-	move(LINES-1, 1);
-	clrtoeol();
-	mvgetstr(LINES-1, 2, (com = new char[COMLEN]));
-	noecho();
+	ask("", (com = new char[COMLEN]));
 
 	/* ANALIZING */
-	for (;*com;) {
+	for (sure = new char[SURELEN]; *com;) {
 		switch(*com++) {
 			case 's': /* SAVE */
 				save(vino->filename, vino->lines);
 				vino->is_saved = true;
 				break;
 			case 'q': /* QUIT */
-				if (vino->is_saved) {
+				if (vino->is_saved == true) {
 					endwin();
 					exit(0);
 				}
@@ -137,10 +140,19 @@ int term_mode(parms *vino)
 				endwin();
 				exit(0);
 				break; /* NOT NEEDED FOR PROGRAMM, NEED FOR MYSELF*/
+			case 'R':
+				ask("Are you sure(Y/N): ", sure)
+	
+				if (*sure == 'Y' || *sure == 'y') {
+					remove(vino->filename);
+					endwin();
+					exit(0);
+				}
+				break;
 		}
 	}
 
-	delete[] com;
-	com = nullptr;
+	delete[] com, sure;
+	com = nullptr, sure = nullptr;
 	return 1;
 }
