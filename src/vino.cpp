@@ -60,7 +60,7 @@ int check_sym(parms *vino)
 				break;
 
 			default:
-				if (vino->c != KEY_TAB && vino->c != KEY_BACKSPACE && vino->c != KEY_TAB) {
+				if (vino->c >= 32 && vino->c <= 126 && vino->c != KEY_TAB && vino->c != KEY_BACKSPACE && vino->c != KEY_TAB) {
 					(vino->lines)[vino->y].insert((vino->x)++, 1, vino->c);	
 					vino->is_saved = false;
 				}
@@ -81,23 +81,27 @@ int check_sym(parms *vino)
 int draw_text(parms *vino) {
 	wclear(stdscr);
 	
-	char info[COLS];
-	sprintf(info, "%dl, %ds %.0f%%", vino->y+1, vino->x+1, 100*((float)(vino->y)+1)/((vino->lines).size()));
-	mvprintw(LINES-1, COLS-((str)info).length()-1, "%s", info);
-	mvprintw(LINES-1, 1, "%s", vino->filename);
+	char *txt = new char[20];
+	sprintf(txt, "%dl, %ds", vino->y+1, vino->x+1);
+
+	mvprintw(LINES-1, (COLS-((str)vino->filename).length())/2, vino->filename);
+	mvprintw(LINES-1, COLS-((str)txt).length()-1, txt);
 	
+	delete[] txt;
+
 	/* UPPING || DOWNING */
-	if (vino->y <  vino->start) /* UP */
+	if (vino->y < vino->start) /* UP */
 		--(vino->start);
-	if (vino->y >= end) /* DOWN */
+	if (vino->y >= end)   /* DOWN */
 		++(vino->start);
 
-	for (size_t k = 0; vino->start+k < end && vino->start+k < (vino->lines).size(); ++k)
-		mvprintw(k, 0, "%s", (vino->lines)[vino->start+k].c_str());
+	for (size_t k = 0; k < LINES-1; ++k)
+		mvaddstr(k, 0, (vino->lines)[vino->start+k].c_str());
 	move(vino->y-vino->start, vino->x);
+
+	wredrawln(stdscr, vino->y-vino->start, vino->x);
 	
-	wrefresh(stdscr);
-	return 1;	
+	return 1;
 }
 
 
@@ -112,10 +116,11 @@ int draw_text(parms *vino) {
 	echo();																				\
 	move(LINES-1, 1);															\
 	clrtoeol();																		\
-	mvprintw(LINES-1, 1, s);											\
+	mvaddstr(LINES-1, 1, s);											\
 	mvgetstr(LINES-1, ((str)(s)).length()+1, s1);	\
 	noecho();
 extern int save(const char *, vec_str &);
+size_t findline(void);
 int term_mode(parms *vino) 
 {
 	char *com, *sure;
@@ -141,7 +146,7 @@ int term_mode(parms *vino)
 				exit(0);
 				break; /* NOT NEEDED FOR PROGRAMM, NEED FOR MYSELF*/
 			case 'R':
-				ask("Are you sure(Y/N): ", sure)
+				ask("Are you really want to delete file(Y/N): ", sure)
 	
 				if (*sure == 'Y' || *sure == 'y') {
 					remove(vino->filename);
@@ -149,10 +154,32 @@ int term_mode(parms *vino)
 					exit(0);
 				}
 				break;
+			case 'f':{
+				size_t n = findline();
+				if (n < (vino->lines).size())
+					vino->y = n;
+				else
+					vino->y = (vino->lines).size()-1;
+				
+				break;}
 		}
-	}
+	}	
 
 	delete[] com, sure;
 	com = nullptr, sure = nullptr;
 	return 1;
+}
+
+#include <cstdlib> /* FOR atoi */
+size_t findline(void)
+{
+	char  *s;
+	size_t r;
+
+	ask("Line: ", (s = new char[COMLEN]));
+	r = atoi(s);
+	
+	delete[] s;
+	s = nullptr;
+	return r;
 }

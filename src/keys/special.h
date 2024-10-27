@@ -9,7 +9,6 @@ bool onlyspaces(std::string &s) {return std::all_of(s.begin(), s.end(), [](uchar
 																																												\
 		/* AUTO COMPLETER(TABS) */																													\
 		size_t lx;																																					\
-																																												\
 		for (lx = 0; lines[y][lx] == ' '; lx++)																							\
 			lines[y+1].append(" ");																														\
 																																												\
@@ -34,8 +33,9 @@ if (x == 0 && y > 0) { /* IF IN START THEN MOVE LINE UP */														\
 	lines[y-1].append(lines[y]);																												\
 	lines.erase(lines.begin() + y--);																										\
 } else if (x > 0) {																																		\
-	if (lines[y][x-1] == ' ' && lines[y][x-2] == ' ')	/* IF "TAB" */										\
-		lines[y].erase(x-- - 1, 1);																												\
+	if (lines[y].length() >= 2)																													\
+		if (lines[y][x-1] == ' ' && lines[y][x-2] == ' ')	/* IF "TAB" */									\
+			lines[y].erase(x-- - 1, 1);																											\
 	lines[y].erase(x-- - 1, 1); /* ERASE SYM */																					\
 } else if (y > 0) { /* ERASING FROM x = 0 THEN CUR LINE UPPING */											\
 	lines.erase(lines.begin() + y);																											\
