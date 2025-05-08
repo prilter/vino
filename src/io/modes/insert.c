@@ -12,6 +12,7 @@ extern int save(char **, const char *);
 int 
 insert_mode(geometry *win) 
 {
+  win->sym = getkey();
   switch (win->sym) {
     case ESC:
       win->mode = CONSOLE;
@@ -76,7 +77,7 @@ insert_mode(geometry *win)
       break;
     default:
       if (win->sym >= 32 && win->sym <= 126)
-        insert_s(CURL, win->x++, win->sym);
+        insert_s(CURL, win->x++, (char)win->sym);
 //      win->saved = 0;
       break;
   }

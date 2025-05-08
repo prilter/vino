@@ -26,14 +26,14 @@ main(int argc, const char **argv) {
     {puts("Usage: vino <filename>"); return 1;}
 
   /* SET STARTED VALUES */
-  win.fn    = malloc(FILENAMELEN);   
-  win.info  = malloc(COLS);
-  win.x     = 0;
-  win.y     = 0;
-  win.xst   = 0;
-  win.yst   = 0;
-  win.saved = 1;
-  win.mode  = CONSOLE;
+  win.fn     = malloc(FILENAMELEN);   
+  win.info   = malloc(COLS);
+  win.x      = 0;
+  win.y      = 0;
+  win.xst    = 0;
+  win.yst    = 0;
+  win.saved  = 1;
+  win.mode   = CONSOLE;
   win.entry = malloc(8); 
 
   strncpy(win.fn, *(argv+1), FILENAMELEN);
@@ -42,10 +42,10 @@ main(int argc, const char **argv) {
   ignore_useless();
   for (;win.sym != C_q;) {
     render(&win);
-    win.sym = getkey();
     switch (win.mode) {
       case CONSOLE: console_mode(&win); break;
       case INSERT:  insert_mode(&win);  break;
+      case REPLACE: replace_mode(&win); break;
     }
   }
   clear();

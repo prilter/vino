@@ -1,15 +1,20 @@
 #include <malloc.h>
+#include <stdio.h>
 
 #include "../../libs/terminal/terminal.h"
+#include "../../libs/descriptors/descriptors.h"
 #include "../../libs/strings/strings.h"
 #include "../appvars.h"
 
+static int hello_menu(const char *, const char);
 static int print(geometry *win);
 int 
 render(geometry *win) 
 {
+  clear();
+  if (size(win->entry) == 1 && **win->entry == '\n')
+    hello_menu("===== WELCOME TO VINO =====", '='); 
   tabs_to_spaces(win->entry, TABLEN);
-
  
   /* UP-DOWN SCREEN(USE CYCLE BECAUSE gg AND G) */
   for (;win->y < win->yst;) /* UPPER SCREEN MOVING */
@@ -18,14 +23,15 @@ render(geometry *win)
     win->yst++; 
   
   /* IF LONG LINE */
-  for (;win->x > win->xst + COLS - 1;)
-    win->xst++;
-  for (;win->x < win->xst;)
-    win->xst--;
-
+  win->xst = 0;
+  if (win->x > COLS - 1) {
+    for (;win->x > win->xst + COLS - 1;)
+      win->xst++;
+    for (;win->x < win->xst;)
+      win->xst--;
+  }
 
   /* PRINT */
-  clear();
   print(win);
   move(win->x - win->xst, win->y - win->yst);
 
@@ -58,27 +64,26 @@ print(geometry *win)
 }
 
 
-
+__attribute__((hot))
 static int wputs(const char *s, size_t st, size_t end)
 {
-  size_t i;
+  const size_t len = strlen(s);
 
-  if (st >= strlen(s)) {
-    fputc('\n', stdout);
-    return 0;
+  if(st >= len) {
+    return fputc('\n', stdout);  // Возвращаем результат fputc
   }
-  
-  for (i = st; *(s+i) && i < end; i++)
-    putc(*(s+i), stdout);
 
-  return 0;
+  // Рассчитываем длину для вывода
+  const size_t print_len = (end > len) ? len - st : end - st;
+
+  // Используем fwrite для эффективного вывода части строки
+  return fwrite(s + st, 1, print_len, stdout) != print_len;
 }
-
-
 
 /* |                 filename, NUMc NUMl| */
 static int info_puts(geometry *win, FILE *stream, size_t y) {
   static size_t i;
+  char *info;
 
   move(0, y);
   sprintf(win->info, "%d %s, %zdc %zdl", win->mode, win->fn, win->x+1, win->y+1);
@@ -87,4 +92,31 @@ static int info_puts(geometry *win, FILE *stream, size_t y) {
   fputs(win->info, stream); 
 
   return 0;
+}
+
+
+
+static int 
+hello_menu(const char *s, const char sep)
+{
+  char *b;
+
+  if (!(b = malloc(BUFLEN)))
+    return 0;
+  memset(b, sep, strlen(s));
+
+  /* 1 LINE */
+  move((COLS - strlen(s)) >> 1, (ROWS >> 1) - 1);
+  puts(b);
+
+  /* 2 LINE */
+  move((COLS - strlen(s)) >> 1, ROWS >> 1);
+  puts(s);
+
+  /* 3 LINE */
+  move((COLS - strlen(s)) >> 1, (ROWS >> 1) + 1);
+  puts(b);
+
+  free(b);
+  return 1;
 }

@@ -3,11 +3,16 @@
   #include <stddef.h>
 #endif
 
+/* "SETTINGS" */
+#define USE_ARROWS 1
+#define TABLEN     2
+
+
 /* STRUCTURES */
 typedef struct {
 	char *fn;     /* FILENAME */
   char *info;   /* INFO */
-  int    sym;   /* SYMBOL */
+  int   sym;    /* SYMBOL */
 	size_t x;     /* X COORD */
 	size_t y;     /* Y COORD */
 	size_t yst;   /* START LINE(by y) TO PRINT */
@@ -16,7 +21,6 @@ typedef struct {
   int mode;     /* MODE */
 	char **entry; /* FILE TEXT */
 } geometry;
-#define USE_ARROWS 1
 
 
 /* GEOMETRY */
@@ -52,12 +56,15 @@ typedef struct {
 #define b_KEY         0x62
 #define A_KEY         0x41
 #define a_KEY         0x61
+#define r_KEY         0x72
+#define R_KEY         0x52
 #define o_KEY         0x6F
 #define O_KEY         0x4F
 #define d_KEY         0x64
 #define D_KEY         0x44
 #define s_KEY         0x73
 #define S_KEY         0x53
+#define SLASH_KEY     0x2F
 
 
 
@@ -65,9 +72,10 @@ typedef struct {
 #define BUFLEN      1024
 #define LINELEN     1024
 #define FILENAMELEN 1000
-#define TABLEN      2
+#define KEYSLEN     100
 
 
 /* MODES */
 #define CONSOLE 0
 #define INSERT  1
+#define REPLACE 2

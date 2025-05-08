@@ -8,6 +8,7 @@
 #endif
 
 
+__attribute__((hot))
 char *
 _insert_s(char *s, size_t x, char c) 
 {
