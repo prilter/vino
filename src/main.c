@@ -20,10 +20,12 @@ int
 main(int argc, const char **argv) {
   /* INIT */
   geometry win;
+  int is_new;
 
-  /* ZERO ARGUMENTS */
+  /* CHECK ARGUMENTS */
   if (argc == 1)
     {puts("Usage: vino <filename>"); return 1;}
+  is_new = is_exist(argv[1]) ? 0:1;
 
   /* SET STARTED VALUES */
   win.fn     = malloc(FILENAMELEN);   
@@ -34,7 +36,7 @@ main(int argc, const char **argv) {
   win.yst    = 0;
   win.saved  = 1;
   win.mode   = CONSOLE;
-  win.entry = malloc(8); 
+  win.entry  = malloc(8); 
 
   strncpy(win.fn, *(argv+1), FILENAMELEN);
   win.entry = readfile(win.entry, win.fn); /* GET WIN.FN AND WIN.ENTRY */
@@ -48,8 +50,16 @@ main(int argc, const char **argv) {
       case REPLACE: replace_mode(&win); break;
     }
   }
+  
+  /* SAVING */
+  move(0, ROWS);
+  fputs("Save(y/n)? ", stdout);
+  win.sym = getchar();
+  if (win.sym == 'y')
+    save(win.entry, win.fn);
+  if (is_new && win.sym != 'y')
+    remove(argv[1]);
   clear();
-  save(win.entry, win.fn);
 
   /* FREE */
   for (int i = 0;*(win.entry+i); i++)

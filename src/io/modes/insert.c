@@ -16,6 +16,8 @@ insert_mode(geometry *win)
   switch (win->sym) {
     case ESC:
       win->mode = CONSOLE;
+      if (win->x != 0)
+        win->x--;
       break;
     case ENTER: /* ENTER */
       insert(win->entry, ++win->y, substr(CURL, win->x));
