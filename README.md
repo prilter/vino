@@ -23,14 +23,14 @@ This branch was made because I want to make project more "truly". The main branc
 # Installation guide  
 For sudo users:  
 ```bash
-git clone -b C --single-branch https://github.com/prilter/vino
+git clone -b C --single-branch https://github.com/justavahi/vino
 cd vino
 sudo make install
 ```  
   
 For doas users:  
 ```bash
-git clone -b C --single-branch https://github.com/prilter/vino
+git clone -b C --single-branch https://github.com/justavahi/vino
 cd vino
 doas make install
 ```  
